@@ -1,0 +1,24 @@
+services:
+  db:
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: Cda(cda9
+    image: mcr.microsoft.com/mssql/server:2017-latest
+  starwars:
+    build:
+      context: C:\projetos\upwork\starwars
+      dockerfile: Dockerfile
+    depends_on:
+      db:
+        condition: service_started
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: https://+:443;http://+:80
+    image: starwars
+    ports:
+    - target: 80
+    - target: 443
+    volumes:
+    - C:\Users\fabio\AppData\Roaming\ASP.NET\Https:/root/.aspnet/https:ro
+    - C:\Users\fabio\AppData\Roaming\Microsoft\UserSecrets:/root/.microsoft/usersecrets:ro
+version: '3.4'

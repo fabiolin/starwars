@@ -1,0 +1,15 @@
+version: '3.4'
+
+services:
+  db:
+    image: "mcr.microsoft.com/mssql/server:2017-latest"
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Cda(cda9
+  starwars:  
+    image: ${DOCKER_REGISTRY-}starwars
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - db
