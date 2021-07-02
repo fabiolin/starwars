@@ -46,6 +46,24 @@ namespace starwars.Controllers
             return BadRequest();
         }
 
+        [HttpGet]
+        [Route("{id}")]
+        public async Task<ActionResult> Get(string id)
+        {
+            try
+            {
+                var film = await _filmRepository.GetAsync(id);
+
+                return Ok(film);
+            }
+            catch (Exception ex)
+            {
+                Console.Write("Erro: " + ex.ToString());
+            }
+
+            return BadRequest();
+        }
+
         [HttpPost]
         public ActionResult Post([FromBody] Film film)
         {
