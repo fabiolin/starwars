@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using starwars.Infra.Entities;
 using starwars.Infra.Repository;
 using starwars.Models;
 using System;
@@ -36,6 +37,65 @@ namespace starwars.Controllers
                 var films = await _filmRepository.GetAllAsync();
 
                 return Ok(films);
+            }
+            catch (Exception ex)
+            {
+                Console.Write("Erro: " + ex.ToString());
+            }
+
+            return BadRequest();
+        }
+
+        [HttpPost]
+        public ActionResult Post([FromBody] Film film)
+        {
+            try
+            {
+                var result = _filmRepository.SaveAsync(film);
+                if (result != null)
+                {
+                    return Ok(result);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Write("Erro: " + ex.ToString());
+            }
+
+            return BadRequest();
+        }
+
+        [HttpPut]
+        public ActionResult Put(Film film)
+        {
+            try
+            {
+                var result = _filmRepository.Update(film);
+                if (result != null)
+                {
+                    return Ok(result);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Write("Erro: " + ex.ToString());
+            }
+
+            return BadRequest();
+        }
+
+        [HttpDelete]
+        [Route("{id}")]
+        public async Task<ActionResult> Delete(string id)
+        {
+            try
+            {
+                var film = await _filmRepository.GetAsync(id);
+                if (film != null)
+                {
+                    _filmRepository.Delete(film);
+                    return Ok();
+                }
             }
             catch (Exception ex)
             {
